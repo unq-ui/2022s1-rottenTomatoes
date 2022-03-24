@@ -1,6 +1,7 @@
 # UNQ » UIs » Dominio » Rotten tomatoes
 
-[![JitPack](https://jitpack.io/v/unq-ui/unqflix.svg)](https://jitpack.io/#unq-ui/unqflix)
+[![](https://jitpack.io/v/unq-ui/2022s1-rottenTomatoes.svg)](https://jitpack.io/#unq-ui/2022s1-rottenTomatoes)
+
 
 Construcción de Interfaces de Usuario, Universidad Nacional de Quilmes.
 
@@ -23,8 +24,8 @@ Agregar la dependencia:
 
 ```xml
 <dependency>
-    <groupId>com.github.unqUi</groupId>
-    <artifactId>RottenTomatos</artifactId>
+    <groupId>com.github.unq-ui</groupId>
+    <artifactId>2022s1-rottenTomatoes</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -69,13 +70,13 @@ class RottenTomatoesSystem {
     * Si el movieId es vacio.
     * Si no existe el movieId.
   )
-  fun addReview(review: DraftReview): Review 
+  fun addReview(review: DraftReview): Review
 
   @throw UserError (
     * Si el userId es vacio.
     * Si no existe el userId.
   )
-  fun getUserById(userId: String): User 
+  fun getUserById(userId: String): User
 
     @throw MovieError (
     * Si el movieId es vacio.
