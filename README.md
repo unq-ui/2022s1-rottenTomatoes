@@ -1,4 +1,4 @@
-# UNQ » UIs » Dominio » UNQFlix
+# UNQ » UIs » Dominio » Rotten tomatoes
 
 [![JitPack](https://jitpack.io/v/unq-ui/unqflix.svg)](https://jitpack.io/#unq-ui/unqflix)
 
