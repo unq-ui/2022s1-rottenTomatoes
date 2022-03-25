@@ -26,11 +26,22 @@ class RottenTomatoesSystem {
         return newMovie
     }
 
-    private fun validateMovie(movie: DraftMovie) {
+    private fun validateMovie(movie: DraftMovie, filterId: String = "") {
         if (movie.title.isBlank()) throw MovieError("Title is empty")
         if (movie.description.isBlank()) throw MovieError("Description is empty")
         if (movie.poster.isBlank()) throw MovieError("Poster is empty")
-        if (movies.any { it.title == movie.title }) throw MovieError("Exist another movie with same title")
+        if (movies.filter { it.id != filterId }.any { it.title == movie.title }) throw MovieError("Exist another movie with same title")
+    }
+
+    fun editMovie(movieId: String, draftMovie: DraftMovie): Movie {
+        val movie = getMovieById(movieId)
+        validateMovie(draftMovie, movieId)
+        movie.title = draftMovie.title
+        movie.description = draftMovie.description
+        movie.poster = draftMovie.poster
+        movie.relatedContent = draftMovie.relatedContent
+        movie.categories = draftMovie.categories
+        return movie
     }
 
     fun addCategory(category: DraftCategory): Category {
@@ -40,9 +51,16 @@ class RottenTomatoesSystem {
         return newCategory
     }
 
-    private fun validateCategory(category: DraftCategory) {
+    private fun validateCategory(category: DraftCategory, filterId: String  = "") {
         if (category.name.isBlank()) throw CategoryError("Name is empty")
-        if (categories.any { it.name == category.name }) throw CategoryError("Exist another category with same name")
+        if (categories.filter { it.id != filterId }.any { it.name == category.name }) throw CategoryError("Exist another category with same name")
+    }
+
+    fun editCategory(categoryId: String, draftCategory: DraftCategory): Category {
+        val category = getCategoryById(categoryId)
+        validateCategory(draftCategory, categoryId)
+        category.name = draftCategory.name
+        return category
     }
 
     fun addUser(user: DraftUser): User {
@@ -89,11 +107,20 @@ class RottenTomatoesSystem {
         return movies.find { it.id == movieId } ?: throw MovieError("Movie not found")
     }
 
+    fun getCategoryById(categoryId: String): Category {
+        validateCategoryId(categoryId)
+        return categories.find { it.id == categoryId } ?: throw CategoryError("Category not found")
+    }
+
     private fun validateUserId(userId: String) {
         if (userId.isBlank()) throw UserError("UserId is empty")
     }
 
     private fun validateMovieId(movieId: String) {
         if (movieId.isBlank()) throw MovieError("MovieId is empty")
+    }
+
+    private fun validateCategoryId(categoryId: String) {
+        if (categoryId.isBlank()) throw CategoryError("CategoryId is empty")
     }
 }

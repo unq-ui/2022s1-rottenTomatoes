@@ -64,6 +64,63 @@ class RottenTomatoesSystemTest {
     }
 
     @Test
+    fun editMovie() {
+        val rottenTomatoesSystem = RottenTomatoesSystem()
+        rottenTomatoesSystem.addMovie(draftMovie)
+        val originalMovie = rottenTomatoesSystem.getMovieById("mov_1")
+        assertEquals(originalMovie.id, "mov_1")
+        assertEquals(originalMovie.title, "mov1")
+        assertEquals(originalMovie.description, "mov1")
+        assertEquals(originalMovie.poster, "mov1")
+
+        rottenTomatoesSystem.editMovie("mov_1", DraftMovie("edit", "edit", "edit"))
+
+        val editedMovie = rottenTomatoesSystem.getMovieById("mov_1")
+        assertEquals(editedMovie.id, "mov_1")
+        assertEquals(editedMovie.title, "edit")
+        assertEquals(editedMovie.description, "edit")
+        assertEquals(editedMovie.poster, "edit")
+    }
+
+    @Test
+    fun editMovieWithSameName() {
+        val rottenTomatoesSystem = RottenTomatoesSystem()
+        rottenTomatoesSystem.addMovie(draftMovie)
+        val originalMovie = rottenTomatoesSystem.getMovieById("mov_1")
+        assertEquals(originalMovie.id, "mov_1")
+        assertEquals(originalMovie.title, "mov1")
+        assertEquals(originalMovie.description, "mov1")
+        assertEquals(originalMovie.poster, "mov1")
+
+        rottenTomatoesSystem.editMovie("mov_1", DraftMovie("mov1", "edit", "edit"))
+
+        val editedMovie = rottenTomatoesSystem.getMovieById("mov_1")
+        assertEquals(editedMovie.id, "mov_1")
+        assertEquals(editedMovie.title, "mov1")
+        assertEquals(editedMovie.description, "edit")
+        assertEquals(editedMovie.poster, "edit")
+    }
+
+    @Test
+    fun editMovieWithRepeatedName() {
+        val rottenTomatoesSystem = RottenTomatoesSystem()
+        rottenTomatoesSystem.addMovie(draftMovie)
+        rottenTomatoesSystem.addMovie(DraftMovie("mov2", "mov2", "mov2"))
+        assertFailsWith<MovieError>("Exist another movie with same name") {
+            rottenTomatoesSystem.editMovie("mov_1", DraftMovie("mov2", "edit", "edit"))
+        }
+    }
+
+    @Test
+    fun editMovieWithMovieIdNotFound() {
+        val rottenTomatoesSystem = RottenTomatoesSystem()
+        rottenTomatoesSystem.addMovie(draftMovie)
+        assertFailsWith<MovieError>("Movie not found") {
+            rottenTomatoesSystem.editMovie("mov_2", DraftMovie("mov2", "edit", "edit"))
+        }
+    }
+
+    @Test
     fun addCategory() {
         val rottenTomatoesSystem = RottenTomatoesSystem()
         assertEquals(rottenTomatoesSystem.categories.size, 0)
@@ -91,6 +148,41 @@ class RottenTomatoesSystemTest {
         val customDraftCategory = DraftCategory("")
         assertFailsWith<CategoryError>("Name is empty") {
             rottenTomatoesSystem.addCategory(customDraftCategory)
+        }
+    }
+
+    @Test
+    fun editCategory() {
+        val rottenTomatoesSystem = RottenTomatoesSystem()
+        rottenTomatoesSystem.addCategory(draftCategory)
+
+        val originalCategory = rottenTomatoesSystem.getCategoryById("cat_1")
+        assertEquals(originalCategory.id, "cat_1")
+        assertEquals(originalCategory.name, "cat")
+
+        rottenTomatoesSystem.editCategory("cat_1", DraftCategory("anotherCat"))
+
+        val editedCategory = rottenTomatoesSystem.getCategoryById("cat_1")
+        assertEquals(editedCategory.id, "cat_1")
+        assertEquals(editedCategory.name, "anotherCat")
+    }
+
+    @Test
+    fun editCategoryWithRepeatedName() {
+        val rottenTomatoesSystem = RottenTomatoesSystem()
+        rottenTomatoesSystem.addCategory(draftCategory)
+        rottenTomatoesSystem.addCategory(DraftCategory("anotherCat"))
+        assertFailsWith<CategoryError>("Exist another category with same name") {
+            rottenTomatoesSystem.editCategory("cat_1", DraftCategory("anotherCat"))
+        }
+    }
+
+    @Test
+    fun editCategoryWithCategoryIdNotFound() {
+        val rottenTomatoesSystem = RottenTomatoesSystem()
+        rottenTomatoesSystem.addCategory(draftCategory)
+        assertFailsWith<CategoryError>("Category not found") {
+            rottenTomatoesSystem.editCategory("cat_2", DraftCategory("anotherCat"))
         }
     }
 
