@@ -32,7 +32,7 @@ Agregar la dependencia:
 
 ### Interfaz de uso
 
-```kt
+```kotlin
 class RottenTomatoesSystem {
 
   val movies: MutableList<Movie>
@@ -86,3 +86,67 @@ class RottenTomatoesSystem {
 
 }
 ```
+
+
+# Requerimientos
+
+* El sistema tiene que permitir agregar/editar películas, categorías y reviews.
+
+* Una pelicula cuenta con:
+  * Un id unico (con formato "mov_{numero}").
+  * Un titulo (que no puede estar repetido en la aplicacion y no puede ser vacio).
+  * Una descripcion (no puede ser vacia).
+  * Un poster (que es una url) (no puede ser vacia).
+  * Categorias relacionadas (son categorias tienen que estar dadas de alta previamente en el sistema).
+  * Contenido relacionado (son peliculas dadas de alta previamente en el sistema).
+
+* Una categoria cuenta con:
+  * Un id unico (con formato "cat_{numero}").
+  * Un nombre (que no puede estar repetido en la aplicacion y no puede ser vacio).
+
+* Una Review cuenta con:
+  * Un id unico (con formato "rev_{numero}").
+  * Un usuario (que tiene que pertenecer al sistema)
+  * Una Pelicula (que tiene que pertenecer al sistema)
+  * Un texto (que no puede ser vacio)
+  * Una cantidad de estrellas que van de 1 a 5.
+  * Solo puede existir una review de un usuario por pelicula.
+
+* Un usuario cuenta con:
+  * Un id unico (con formato "u_{numero}").
+  * Un nombre (que no puede ser vacio).
+  * Una contraseña (que no puede ser vacia).
+  * Un email (que no puede estar repetido en la aplicacion y no puede ser vacio).
+  * Un listado de las reviews realizadas.
+
+* TODA interaccion tiene que pasar por RottenTomatoesSystem (con la interfaz definida previamente).
+
+* El RottenTomatoesSystem es el encargado de setear los ids de cada elemento que se agrega el sistema.
+  * Para simplificar se utilizan objetos draft
+
+```kotlin
+class DraftMovie(
+    var title: String,
+    var description: String,
+    var poster: String,
+    var categories: MutableList<Category>,
+    var relatedContent: MutableList<Movie>
+)
+
+class DraftCategory (var name: String)
+
+class DraftUser(
+    var name: String,
+    var image: String,
+    var email: String,
+    var password: String,
+)
+
+class DraftReview(
+    var userId: String,
+    var movieId: String,
+    var text: String,
+    var stars: Int
+```
+
+* Se tiene que proveer datos de muestra (los datos se puede obtener de https://github.com/unq-ui/2022s1-rottenTomatoes/blob/master/src/main/kotlin/com/github/unqUi/model/bootstrap.kt)
