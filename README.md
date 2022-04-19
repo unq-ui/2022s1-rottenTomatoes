@@ -44,12 +44,26 @@ class RottenTomatoesSystem {
     * El titulo se encuentra repetido.
   )
   fun addMovie(movie: DraftMovie): Movie
+  
+  @throw MovieError (
+    * El id no existe en el sistema.
+    * El titulo, descripcion o poster no puede ser vacios.
+    * El titulo se encuentra repetido.
+  )
+  fun editMovie(movieId: String, draftMovie: DraftMovie): Movie
 
   @throw CategoryError (
     * El nombre no puede ser vacio.
     * Existe otra categoria con el mismo nombre.
   )
   fun addCategory(category: DraftCategory): Category
+
+  @throw CategoryError (
+    * El id no existe en el sistema.
+    * El nombre no puede ser vacio.
+    * Existe otra categoria con el mismo nombre.
+  )
+  fun editCategory(categoryId: String, draftCategory: DraftCategory): Category
 
   @throw UserError (
     * El nombre, image, email o password no pueden ser vacios.
